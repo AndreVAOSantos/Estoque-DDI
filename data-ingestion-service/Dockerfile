@@ -17,4 +17,4 @@ COPY src/ ./src/
 ENV PYTHONUNBUFFERED=1
 
 # Comando para executar a aplicação
-CMD ["python", "src/app.py"]
+CMD ["python", "src/service.py"]

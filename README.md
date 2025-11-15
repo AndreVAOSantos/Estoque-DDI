@@ -100,7 +100,8 @@ docker-compose down -v
 │   ├── Dockerfile
 │   ├── requirements.txt
 │   └── src/
-│       ├── app.py
+│       ├── service.py
+│       ├── panel.py
 │       └── templates/
 │           └── panel.html
 ├── monitoring-service/

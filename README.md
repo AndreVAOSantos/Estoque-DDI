@@ -54,7 +54,26 @@ Após iniciar os containers, você pode acessar os painéis web de cada serviço
 
 Os painéis se atualizam automaticamente a cada 2 segundos.
 
-### 3. Verificar os Logs dos Serviços
+### 3. Acessar os Painéis via Terminal
+
+Como alternativa aos painéis web, você pode visualizar os eventos de cada serviço diretamente no seu terminal. Para isso, execute os seguintes comandos em novos terminais:
+
+-   **Painel de Ingestão de Dados:**
+    ```bash
+    docker-compose exec data-ingestion-service python src/panel.py
+    ```
+
+-   **Painel de Monitoramento:**
+    ```bash
+    docker-compose exec monitoring-service python src/panel.py
+    ```
+
+-   **Painel de Notificação:**
+    ```bash
+    docker-compose exec notification-service python src/panel.py
+    ```
+
+### 4. Verificar os Logs dos Serviços
 
 Para acompanhar os logs de um serviço específico em tempo real, abra um novo terminal e use o comando `docker-compose logs -f`.
 

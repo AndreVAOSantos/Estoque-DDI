@@ -1,20 +1,8 @@
-# Usar a imagem oficial do Python 3.11
-FROM python:3.11-slim
+# Use shared base image with all dependencies pre-installed
+FROM estoque-ddi-base:latest
 
-# Definir o diretório de trabalho no container
-WORKDIR /app
-
-# Copiar o arquivo de dependências
-COPY requirements.txt .
-
-# Instalar as dependências
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copiar o código-fonte da aplicação
+# Copy application source code
 COPY src/ ./src/
 
-# Garantir que o output do Python não seja bufferizado
-ENV PYTHONUNBUFFERED=1
-
-# Comando para executar a aplicação
+# Command to run the application
 CMD ["python", "src/service.py"]

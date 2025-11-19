@@ -11,6 +11,15 @@ networks:
     driver: bridge
 
 services:
+  # Base image with shared dependencies
+  base-image:
+    build:
+      context: ./docker-base-image
+      dockerfile: Dockerfile
+    image: estoque-ddi-base:latest
+    # This service only builds the image, it doesn't run
+    command: /bin/true
+
   zookeeper:
     image: confluentinc/cp-zookeeper:7.0.1
     container_name: zookeeper
@@ -44,6 +53,7 @@ services:
       dockerfile: Dockerfile
     container_name: data-ingestion-service
     depends_on:
+      - base-image
       - kafka
     ports:
       - "3001:3001"
@@ -59,6 +69,7 @@ services:
       dockerfile: Dockerfile
     container_name: monitoring-service
     depends_on:
+      - base-image
       - kafka
     ports:
       - "3002:3002"
@@ -74,6 +85,7 @@ services:
       dockerfile: Dockerfile
     container_name: notification-service
     depends_on:
+      - base-image
       - kafka
     ports:
       - "3003:3003"

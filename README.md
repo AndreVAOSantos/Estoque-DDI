@@ -27,16 +27,20 @@ Para executar este projeto, você precisará ter instalados:
 
 Siga os passos abaixo para iniciar a aplicação completa.
 
-### 1. Iniciar os Serviços
+### 1. Construir e Iniciar os Serviços
 
-Abra um terminal na raiz do projeto (onde o arquivo `docker-compose.yml` está localizado) e execute o seguinte comando:
+O projeto utiliza uma imagem Docker base para compartilhar dependências e acelerar o processo de build. O `docker-compose` gerencia a construção dessa imagem automaticamente.
+
+Para construir a imagem base e iniciar todos os serviços, abra um terminal na raiz do projeto e execute:
 
 ```bash
 docker-compose up --build
 ```
 
--   O comando `--build` força a reconstrução das imagens Docker dos serviços, o que é útil caso você faça alguma alteração no código-fonte.
--   O processo pode levar alguns minutos na primeira vez, pois o Docker precisará baixar as imagens base do Zookeeper e Kafka.
+-   **Como funciona o `--build`?**
+    1.  Primeiro, o Docker construirá a imagem `estoque-ddi-base:latest` a partir do diretório `docker-base-image`, contendo todas as dependências compartilhadas. Essa camada será cacheada.
+    2.  Em seguida, as imagens de cada microsserviço (`data-ingestion`, `monitoring`, `notification`) serão construídas sobre a imagem base.
+-   O processo pode levar alguns minutos na primeira vez.
 -   Aguarde até que os logs indiquem que os serviços se conectaram com sucesso ao Kafka.
 
 ### 2. Acessar os Painéis de Monitoramento
@@ -115,9 +119,11 @@ docker-compose down -v
 ```
 /
 ├── docker-compose.yml
+├── docker-base-image/
+│   ├── Dockerfile
+│   └── requirements.txt
 ├── data-ingestion-service/
 │   ├── Dockerfile
-│   ├── requirements.txt
 │   └── src/
 │       ├── service.py
 │       ├── panel.py
